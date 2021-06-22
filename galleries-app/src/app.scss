@@ -1,0 +1,48 @@
+$primary: #42b983;
+$body-bg: #f0f0f0;
+$body-color: #2c3e50;
+
+$input-btn-focus-color: $primary;
+$input-btn-focus-width: 1px;
+
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+
+.btn-primary {
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+  }
+  &:focus {
+    color: #fff;
+  }
+}
+
+a {
+  color: $body-color;
+  text-decoration: none;
+  transition: ease-in-out 0.2s;
+}
+
+.form-control {
+    &:focus {
+        box-shadow: 0 0 1px $primary;
+    }
+}
+
+.nav-link {
+    color: $body-color;
+
+    &:focus {
+        color: $primary;
+    }
+}
+
+.card {
+  transition: ease-in-out 0.5s;
+  box-shadow: 0 0 30px rgba(1, 13, 34, 0.2);
+
+  &:hover {
+    box-shadow: 0 0 30px rgba(1, 13, 34, 0.5);
+  }
+}
