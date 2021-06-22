@@ -23,10 +23,49 @@ class Gallery extends Model
     }
 
     public function images() {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class)->latest();
+    }
+
+    public function preview() {
+        return $this->hasOne(Image::class)->oldest();
     }
 
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
+    }
+
+    public static function getAll() {
+        return Gallery::with(['user', 'preview'])
+                      ->latest()
+                      ->get();
+    }
+
+    public static function getUser($id) {
+        return Gallery::where('user_id', $id)
+                      ->with('preview')
+                      ->latest()
+                      ->get();
+    }
+
+    public static function search($query) {
+        return Gallery::with(['user', 'preview'])
+                      ->where('title', 'like', $query)
+                      ->orWhere('description', 'like', $query)
+                      ->orWhereHas('user', function ($qb) use ($query) {
+                          $qb->where('name', 'like', $query);
+                      })
+                      ->latest()
+                      ->get();
+    }
+
+    public static function searchUser($id, $query) {
+        return Gallery::where('user_id', $id)
+                      ->with('preview')
+                      ->where(function ($qb) use ($query) {
+                          $qb->where('title', 'like', $query)
+                             ->orWhere('description', 'like', $query);
+                        })
+                      ->latest()
+                      ->get();
     }
 }
