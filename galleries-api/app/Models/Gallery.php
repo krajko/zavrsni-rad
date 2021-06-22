@@ -52,7 +52,10 @@ class Gallery extends Model
                       ->where('title', 'like', $query)
                       ->orWhere('description', 'like', $query)
                       ->orWhereHas('user', function ($qb) use ($query) {
-                          $qb->where('name', 'like', $query);
+                          $qb->where('first_name', 'like', $query)
+                             ->orWhere('last_name', 'like', $query)
+                             ->orWhereRaw('concat(first_name, " ", last_name) like ?', [$query])
+                             ->orWhereRaw('concat(last_name, " ", first_name) like ?', [$query]);
                       })
                       ->latest()
                       ->get();
