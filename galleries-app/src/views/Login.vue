@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-5" style="max-width: 360px;">
         <div class="text-center mb-4">
-            <h1> <strong> Login </strong> </h1>
+            <h1 class="display-2 lobster"> Login </h1>
             <hr>
         </div>
         
@@ -9,7 +9,7 @@
 
             <!-- Email -->
             <div class="form-group mb-3">
-                <label> <small> Email address: </small> </label>
+                <label> Email address: </label>
                 <input 
                     type="text"
                     class="form-control" 
@@ -19,10 +19,6 @@
 
                 <!-- Errors -->
                 <div v-if="$v.credentials.email.$dirty">
-                    <div v-if="!$v.credentials.email.required">
-                        <small class="text-danger"> Email must not be empty. </small>
-                    </div>
-
                     <div v-if="!$v.credentials.email.email">
                         <small class="text-danger"> Not a valid email address. </small>
                     </div>
@@ -31,25 +27,18 @@
 
             <!-- Password -->
             <div class="form-group mb-4">
-                <label> <small> Password: </small></label>
+                <label> Password: </label>
                 <input 
                     type="password"
                     class="form-control" 
                     :class="{ 'is-invalid': $v.credentials.password.$error }"
                     @blur="setPassword($event.target.value)"
                 />
-
-                <!-- Errors -->
-                <div v-if="$v.credentials.password.$dirty">
-                    <div v-if="!$v.credentials.password.required">
-                        <small class="text-danger"> Password must not be empty. </small>
-                    </div>
-                </div>
             </div>
 
             <!-- Submit -->
             <div class="text-center">
-                <b-button variant="primary" type="submit" class="px-3 mb-3">Submit</b-button>
+                <b-button variant="primary" type="submit" class="px-3 mb-3"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
             </div>
 
             <!-- Invalid -->

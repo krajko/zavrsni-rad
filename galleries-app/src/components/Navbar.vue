@@ -2,28 +2,60 @@
     <nav class="navbar navbar-expand-lg bg-white border-bottom">
         <div class="container-fluid px-3">
 
-            <!-- Left -->
-            <b-icon-images  class="navbar-brand p-0" font-scale="2.5" style="vertical-align: middle;"/>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <router-link to="/" class="nav-link"> All galleries </router-link>
+            <!-- Left -->            
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item mx-3">
+                    <router-link to="/" class="nav-link mx-1">
+                        <h2 class="lobster mb-0">
+                            <i class="far fa-images"></i>
+                            Galleries 
+                        </h2>
+                    </router-link>
+                </li>
+
+                <li v-if="isAuth" class="nav-item mx-3">
+                    <router-link to="/me" class="nav-link mx-1">
+                        <h2 class="lobster mb-0">
+                            <i class="far fa-user-circle"></i>
+                            My Galleries 
+                        </h2>
+                    </router-link>
+                </li>
+
+                <li v-if="isAuth" class="nav-item mx-3">
+                    <router-link to="/create" class="nav-link mx-1">
+                        <h2 class="lobster mb-0">        
+                            <i class="fa fa-plus"></i>
+                            Create 
+                        </h2>
+                    </router-link>
                 </li>
             </ul>
 
             <!-- Right -->
             <ul v-if="!isAuth" class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <router-link to="/login" class="nav-link"> Login </router-link>
+                    <router-link to="/login" class="nav-link"> 
+                        <h3 class="lobster mb-0">
+                            Login 
+                        </h3>
+                    </router-link>
                 </li>
                 
                 <li class="nav-item">
-                    <router-link to="/register" class="nav-link"> Register </router-link>
+                    <router-link to="/register" class="nav-link"> 
+                        <h3 class="lobster mb-0">
+                            Register
+                        </h3>
+                    </router-link>
                 </li>
             </ul>
 
             <ul v-if="isAuth" class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <button class="btn nav-link" @click="handleLogout"> Logout </button>
+                <li class="nav-item mx-3">
+                    <button class="btn btn-dark px-3" @click="handleLogout"> 
+                        <strong> Logout </strong> 
+                    </button>
                 </li>
             </ul>
         </div>
@@ -54,3 +86,17 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.image-border {
+    border: 4px solid #42b983;
+    border-radius: 50%;
+
+    padding: 0 2px;
+
+ }
+
+ .nav-link:hover {
+     border-color: #359469;
+ }
+</style>

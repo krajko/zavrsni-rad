@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-5" style="max-width: 360px;">
         <div class="text-center mb-4">
-            <h1> <strong> Register </strong> </h1>
+            <h1 class="display-2 lobster"> Register </h1>
             <hr>
         </div>
         
@@ -9,7 +9,7 @@
 
             <!-- First name -->
             <div class="form-group mb-3">
-                <label> <small> First name: </small> </label>
+                <label> First name: </label>
                 <input 
                     type="text"
                     class="form-control" 
@@ -19,10 +19,6 @@
 
                 <!-- Errors -->
                 <div v-if="$v.data.first_name.$dirty">
-                    <div v-if="!$v.data.first_name.required">
-                        <small class="text-danger"> First name must not be empty. </small>
-                    </div>
-
                     <div v-if="!$v.data.first_name.alpha">
                         <small class="text-danger"> First name must contain only letters. </small>
                     </div>
@@ -31,7 +27,7 @@
 
             <!-- Last name -->
             <div class="form-group mb-3">
-                <label> <small> Last name: </small> </label>
+                <label> Last name: </label>
                 <input 
                     type="text"
                     class="form-control" 
@@ -41,10 +37,6 @@
 
                 <!-- Errors -->
                 <div v-if="$v.data.last_name.$dirty">
-                    <div v-if="!$v.data.last_name.required">
-                        <small class="text-danger"> Last name must not be empty. </small>
-                    </div>
-
                     <div v-if="!$v.data.last_name.alpha">
                         <small class="text-danger"> Last name must contain only letters. </small>
                     </div>
@@ -53,7 +45,7 @@
 
             <!-- Email -->
             <div class="form-group mb-3">
-                <label> <small> Email address: </small> </label>
+                <label> Email address: </label>
                 <input 
                     type="text"
                     class="form-control" 
@@ -63,10 +55,6 @@
 
                 <!-- Errors -->
                 <div v-if="$v.data.email.$dirty">
-                    <div v-if="!$v.data.email.required">
-                        <small class="text-danger"> Email must not be empty. </small>
-                    </div>
-
                     <div v-if="!$v.data.email.email">
                         <small class="text-danger"> Not a valid email address. </small>
                     </div>
@@ -75,25 +63,22 @@
 
             <!-- Password -->
             <div class="form-group mb-3">
-                <label> <small> Password: </small> </label>
+                <label> Password: </label>
                 <input 
                     type="password"
                     class="form-control" 
                     :class="{ 'is-invalid': $v.data.password.$error }"
                     @blur="setPassword($event.target.value)"
                 />
+                <small class="form-text text-muted"> At least 8 characters long with at least 1 number. </small>
 
                 <!-- Errors -->
                 <div v-if="$v.data.password.$dirty">
-                    <div v-if="!$v.data.password.required">
-                        <small class="text-danger"> Password must not be empty. </small>
-                    </div>
-
                     <div v-if="!$v.data.password.minLength">
                         <small class="text-danger"> Password must contain at least 8 characters. </small>
                     </div>
 
-                    <div v-if="!$v.data.password.containsNumber">
+                    <div v-if="!$v.data.password.containsNumber && $v.data.password.required">
                         <small class="text-danger"> Password must contain at least 1 number. </small>
                     </div>
                 </div>
@@ -101,7 +86,7 @@
 
             <!-- Confirm password -->
             <div class="form-group mb-4">
-                <label> <small> Confirm password: </small> </label>
+                <label> Confirm password: </label>
                 <input 
                     type="password"
                     class="form-control" 
@@ -111,10 +96,6 @@
 
                 <!-- Errors -->
                 <div v-if="$v.data.password_confirmation.$dirty">
-                    <div v-if="!$v.data.password_confirmation.required">
-                        <small class="text-danger"> Password confirmation must not be empty. </small>
-                    </div>
-
                     <div v-if="!$v.data.password_confirmation.sameAs">
                         <small class="text-danger"> Passwords do not match. </small>
                     </div>
@@ -123,7 +104,7 @@
 
             <!-- Submit -->
             <div class="text-center">
-                <b-button variant="primary" type="submit" class="px-3"> Submit </b-button>
+                <b-button variant="primary" type="submit" class="px-3 mb-3"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
             </div>
 
             <!-- Error -->

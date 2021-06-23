@@ -1,6 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+
+.lobster {
+  font-family: 'Lobster Two', cursive;
+  font-weight: bold;
+}
+
 $primary: #42b983;
 $body-bg: #f0f0f0;
-$body-color: #2c3e50;
+$dark: #2c3e50;
+$body-color: $dark;
+
+$link-color: $dark;
+$link-hover-color: $primary;
 
 $input-btn-focus-color: $primary;
 $input-btn-focus-width: 1px;
@@ -18,6 +29,18 @@ $input-btn-focus-width: 1px;
   }
 }
 
+.display-2 {
+  font-weight: bold;
+}
+
+.ultra-bold {
+  font-weight: 900;
+}
+
+label {
+  margin-bottom: .25rem;
+}
+
 a {
   color: $body-color;
   text-decoration: none;
@@ -27,14 +50,6 @@ a {
 .form-control {
     &:focus {
         box-shadow: 0 0 1px $primary;
-    }
-}
-
-.nav-link {
-    color: $body-color;
-
-    &:focus {
-        color: $primary;
     }
 }
 
