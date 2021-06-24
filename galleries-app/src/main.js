@@ -11,6 +11,15 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Vuelidate);
 
+Vue.mixin({
+  filters: {
+    formatDate(string) {
+      const date = new Date(string);
+      return date.toLocaleDateString();
+    }
+  }
+})
+
 Vue.config.productionTip = false
 
 new Vue({

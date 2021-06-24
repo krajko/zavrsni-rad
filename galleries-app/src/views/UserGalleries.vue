@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-
+    
     <div v-if="!(galleries.length === 0 && searchMode === false)" class="mx-auto" style="max-width: 480px;">
       <search @search="search($event)"/>
     </div>
@@ -23,12 +23,13 @@
 <script>
 import GalleryList from '../components/GalleryList.vue'
 import Search from '../components/Search.vue'
-
 import { mapActions, mapGetters } from 'vuex'
 import store from '../store'
 
 export default {
-  name: 'Home',
+  name: 'UserGalleries',
+
+  props: ['id'],
 
   components: {
     'gallery-list': GalleryList,
@@ -49,7 +50,10 @@ export default {
 
   async beforeRouteEnter(to, from, next) {
     try {
-      await store.dispatch('galleries/getIndex', 1)
+      await store.dispatch('galleries/getUserIndex', { 
+        id: to.params.id, 
+        page: 1 
+      });
     } catch(e) {
       console.log(e)
     }
@@ -57,7 +61,7 @@ export default {
   },
   
   methods: {
-    ...mapActions('galleries', ['getIndex', 'searchIndex']),
+    ...mapActions('galleries', ['getUserIndex', 'searchUser']),
 
     async load() {
       this.isLoading = true;
@@ -65,12 +69,16 @@ export default {
 
       try {
         if (this.searchMode) {
-          await this.searchIndex({
+          await this.searchUserIndex({
+            id: this.id,
             query: this.query,
             page: this.page
           });
         } else {
-          await this.getIndex(this.page);
+          await this.getUserIndex({
+            id: this.id,
+            page: this.page
+          });
         }
       }catch(e) {
         console.log(e);
@@ -84,7 +92,8 @@ export default {
       this.page = 1;
       this.query = query;
 
-      this.searchIndex({
+      this.searchUser({
+        id: this.id,
         query: query,
         page: this.page
       })

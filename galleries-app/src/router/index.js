@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { globalAuthGuard } from '../guards/auth.js'
+
 import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
+import UserGalleries from '../views/UserGalleries.vue'
+import MyGalleries from '../views/MyGalleries.vue'
+import Gallery from '../views/Gallery.vue'
+
+import { globalAuthGuard } from '../guards/auth.js'
 
 Vue.use(VueRouter)
 
@@ -22,6 +27,22 @@ const routes = [
     path: '/login',
     meta: { guestRequired: true },
     component: Login
+  },
+  {
+    path: '/authors/:id',
+    meta: { authRequired: true },
+    component: UserGalleries,
+    props: true
+  },
+  {
+    path: '/my-galleries',
+    meta: { authRequired: true },
+    component: MyGalleries
+  },
+  {
+    path: '/galleries/:id',
+    meta:{ authRequired: true },
+    component: Gallery
   }
 ]
 

@@ -37,6 +37,10 @@ $input-btn-focus-width: 1px;
   font-weight: 900;
 }
 
+html, body {
+  height: 100%;
+}
+
 label {
   margin-bottom: .25rem;
 }
@@ -55,9 +59,9 @@ a {
 
 .card {
   transition: ease-in-out 0.5s;
-  box-shadow: 0 0 30px rgba(1, 13, 34, 0.2);
+  // box-shadow: 0 0 30px rgba(1, 13, 34, 0.2);
 
   &:hover {
-    box-shadow: 0 0 30px rgba(1, 13, 34, 0.5);
+    box-shadow: 0 0 30px rgba(1, 13, 34, 0.2);
   }
 }

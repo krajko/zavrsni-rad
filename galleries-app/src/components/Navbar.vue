@@ -14,7 +14,7 @@
                 </li>
 
                 <li v-if="isAuth" class="nav-item mx-3">
-                    <router-link to="/me" class="nav-link mx-1">
+                    <router-link to="/my-galleries" class="nav-link mx-1">
                         <h2 class="lobster mb-0">
                             <i class="far fa-user-circle"></i>
                             My Galleries 
@@ -52,8 +52,8 @@
             </ul>
 
             <ul v-if="isAuth" class="navbar-nav ms-auto">
-                <li class="nav-item mx-3">
-                    <button class="btn btn-dark px-3" @click="handleLogout"> 
+                <li class="nav-item">
+                    <button class="btn btn-dark px-3 pb-2" @click="handleLogout"> 
                         <strong> Logout </strong> 
                     </button>
                 </li>

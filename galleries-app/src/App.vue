@@ -1,7 +1,14 @@
 <template>
-  <div id="app">
+  <div id="app" class="d-flex flex-column min-vh-100">
     <navbar/>
-    <router-view/>
+
+    <router-view class="my-4"/>
+
+    <footer class="border-top text-center d-flex mt-auto bg-dark" >
+      <div class="mx-auto my-5 text-light">
+        <span> © Nikola Krajinović | 2021 </span>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -13,7 +20,7 @@ export default {
 
   components: {
     Navbar
-  },
+  }
 };
 </script>
 
