@@ -25,8 +25,8 @@ Route::post('me', [AuthController::class, 'me'])->middleware('auth:api');
 Route::post('refresh', [AuthController::class, 'refresh']);
 
 Route::get('galleries/search', [GalleryController::class, 'search'])->middleware('auth:api');
-Route::get('galleries/search-user', [GalleryController::class, 'searchUser'])->middleware('auth:api');
+Route::get('galleries/user/{id}/search', [GalleryController::class, 'searchUser'])->middleware('auth:api');
 Route::get('galleries/user/{id}', [GalleryController::class, 'indexUser'])->middleware('auth:api');
-Route::resource('galleries', GalleryController::class)->middleware('api');
+Route::resource('galleries', GalleryController::class)->middleware('auth:api');
 
 Route::get('user/{id}', [UserController::class, 'show'])->middleware('auth:api');

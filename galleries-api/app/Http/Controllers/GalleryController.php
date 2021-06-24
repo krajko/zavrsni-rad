@@ -13,71 +13,44 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
-        $skip = $request->input('skip');
-        $take = $request->input('take');
-
-        if ($skip == 0) {
-            $galleries = Gallery::getAll();
-
-            return [
-                'galleries' => $galleries->skip($skip)->take($take),
-                'total' => $galleries->count()
-            ];
-        }
-
-        return Gallery::getAll()->skip($skip)->take($take);
-    }
-
-    public function indexUser(Request $request, $id) {
-        $skip = $request->input('skip');
-        $take = $request->input('take');
-
-        if ($skip == 0) {
-            $galleries = Gallery::getUser($id);
-
-            return [
-                'galleries' => $galleries->skip($skip)->take($take),
-                'total' => $galleries->count()
-            ];
-        }
-
-        return Gallery::getUser($id)->skip($skip)->take($take);
+    public function index() {
+        return Gallery::with(['user', 'preview'])
+                      ->latest('id')
+                      ->simplePaginate(10);
     }
 
     public function search(Request $request) {
-        $skip = $request->input('skip');
-        $take = $request->input('take');
         $query = '%'.$request->input('query').'%';
 
-        if ($skip == 0) {
-            $galleries = Gallery::search($query);
-
-            return [
-                'galleries' => $galleries->take($take),
-                'total' => $galleries->count()
-            ];
-        }
-
-        return Gallery::search($query)->skip($skip)->take($take);
+        return Gallery::with(['user', 'preview'])
+                      ->where('title', 'like', $query)
+                      ->orWhere('description', 'like', $query)
+                      ->orWhereHas('user', function ($qb) use ($query) {
+                          $qb->where('first_name', 'like', $query)
+                             ->orWhere('last_name', 'like', $query)
+                             ->orWhereRaw('concat(first_name, " ", last_name) like ?', [$query])
+                             ->orWhereRaw('concat(last_name, " ", first_name) like ?', [$query]);
+                      })
+                      ->simplePaginate(10);
     }
 
-    public function searchUser(Request $request) {
-        $skip = $request->input('skip');
-        $take = $request->input('take');
+    public function indexUser(Request $request, $id) {
+        return Gallery::where('user_id', $id)
+                      ->with('preview')
+                      ->latest('id')
+                      ->paginate(10);
+    }
+
+    public function searchUser(Request $request, $id) {
         $query = '%'.$request->input('query').'%';
-        $user_id = $request->input('user_id');
 
-        if ($skip == 0) {
-            $galleries = Gallery::searchUser($user_id, $query);
-
-            return [
-                'galleries' => $galleries->take($take),
-                'total' => $galleries->count()
-            ];
-        }
-
-        return Gallery::searchUser($user_id, $query)->skip($skip)->take($take);
+        return Gallery::where('user_id', $id)
+                      ->with('preview')
+                      ->where(function ($qb) use ($query) {
+                          $qb->where('title', 'like', $query)
+                          ->orWhere('description', 'like', $query);
+                      })
+                      ->paginate(10);
     }
 
     /**
@@ -97,7 +70,11 @@ class GalleryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        return Gallery::with(['images', 'user', 'comments']);
+        return Gallery::with(['images', 'user'])
+                      ->with('comments', function ($qb) {
+                          $qb->with('user');
+                      })
+                      ->findOrFail($id);
     }
 
     /**
