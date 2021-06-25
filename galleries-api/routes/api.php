@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,6 @@ Route::get('galleries/user/{id}', [GalleryController::class, 'indexUser'])->midd
 Route::resource('galleries', GalleryController::class)->middleware('auth:api');
 
 Route::get('user/{id}', [UserController::class, 'show'])->middleware('auth:api');
+
+Route::post('comments', [CommentController::class, 'store'])->middleware('auth:api');
+Route::delete('comments/{id}', [CommentController::class, 'destroy'])->middleware('auth:api');

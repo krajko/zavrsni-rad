@@ -13,7 +13,9 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'body'
+        'body',
+        'gallery_id',
+        'user_id'
     ];
 
     public function user() {

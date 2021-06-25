@@ -66,7 +66,6 @@ class GalleryController extends Controller
         $request->request->remove('images');
 
         $gallery = auth('api')->user()->galleries()->create($request->validated());
-        // $gallery = Gallery::create()
 
         foreach ($images as $url) {
             $gallery->images()->create(['url' => $url]);
