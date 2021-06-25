@@ -7,12 +7,18 @@
         </div>
 
         <div class="my-3">
-            <form>
-                <h6> <strong> Add a comment </strong> </h6>
+            <form @submit.prevent="submit">
+                <h6> <strong> Add a comment: </strong> </h6>
+
                 <div class="form-input-group d-flex align-items-end">
-                    <textarea class="form-control me-2" rows="1"></textarea>
+                    <textarea 
+                        class="form-control me-2" 
+                        :class="{ 'is-invalid': $v.comment.$error }"
+                        rows="1"
+                        v-model.trim="$v.comment.$model"
+                    ></textarea>
                     <div>
-                        <b-button variant="primary" class="px-3"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
+                        <b-button variant="primary" class="px-3" type="submit"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
                     </div>
                 </div>
             </form>
@@ -25,7 +31,10 @@
 </template>
 
 <script>
-import Comment from './Comment.vue'
+import Comment from './Comment.vue';
+
+import { mapActions, mapGetters } from 'vuex';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
     name: 'Comments',
@@ -36,6 +45,44 @@ export default {
 
     props: {
         comments: Array
+    },
+
+    data() {
+        return {
+            comment: ''
+        }
+    },
+
+    computed: {
+        ...mapGetters('galleries', ['gallery']),
+    },
+
+    methods: {
+        ...mapActions('galleries', ['addComment']),
+
+        async submit() {
+            this.$v.$touch();
+
+            if (!this.$v.$invalid) {
+                try {
+                    await this.addComment({
+                        body: this.comment,
+                        gallery_id: this.gallery.id
+                    })
+                } catch(e) {
+                    console.log(e);
+                }
+
+                this.comment = '';
+                this.$v.comment.$reset();
+            }
+        }
+    },
+
+    validations: {
+        comment: {
+            required
+        }
     }
 }
 </script>

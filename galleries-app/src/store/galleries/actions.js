@@ -97,5 +97,16 @@ export const actions = {
     async getGallery(store, id) {
         const gallery = await GalleryService.getGallery(id);
         store.commit('setGallery', gallery);
+    },
+
+    // Comments 
+    async addComment(store, data) {
+        const comment = await GalleryService.addComment(data);
+        store.commit('addComment', comment);
+    },
+
+    async deleteComment(store, id) {
+        await GalleryService.deleteComment(id);
+        store.commit('deleteComment', id);
     }
 }

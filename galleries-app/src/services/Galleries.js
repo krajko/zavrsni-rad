@@ -44,6 +44,16 @@ class Galleries extends HttpService {
         const { data } = await this.http.delete(`galleries/${id}`);
         return data;
     }
+
+    async addComment(comment) {
+        const { data } = await this.http.post(`comments`, comment);
+        return data;
+    }
+
+    async deleteComment(id) {
+        const { data } = await this.http.delete(`comments/${id}`);
+        return data;
+    }
 }
 
 const GalleryService = new Galleries();

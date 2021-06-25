@@ -54,5 +54,14 @@ export const mutations = {
         store.gallery = gallery;
     },
 
+    // Comments
+    addComment(store, comment) {
+        store.gallery.comments.unshift(comment);
+    },
+
+    deleteComment(store, id) {
+        store.gallery.comments = store.gallery.comments.filter(comment => comment.id !== id);
+    }
+
 
 }
