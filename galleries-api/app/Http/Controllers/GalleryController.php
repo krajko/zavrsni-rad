@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Gallery;
+use App\Http\Requests\CreateGalleryRequest;
+use App\Http\Requests\UpdateGalleryRequest;
 
 class GalleryController extends Controller
 {
@@ -38,7 +40,7 @@ class GalleryController extends Controller
         return Gallery::where('user_id', $id)
                       ->with('preview')
                       ->latest('id')
-                      ->paginate(10);
+                      ->simplePaginate(10);
     }
 
     public function searchUser(Request $request, $id) {
@@ -50,7 +52,7 @@ class GalleryController extends Controller
                           $qb->where('title', 'like', $query)
                           ->orWhere('description', 'like', $query);
                       })
-                      ->paginate(10);
+                      ->simplePaginate(10);
     }
 
     /**
@@ -59,8 +61,18 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        //
+    public function store(CreateGalleryRequest $request) {
+        $images = $request->input('images');
+        $request->request->remove('images');
+
+        $gallery = auth('api')->user()->galleries()->create($request->validated());
+        // $gallery = Gallery::create()
+
+        foreach ($images as $url) {
+            $gallery->images()->create(['url' => $url]);
+        }
+
+        return $gallery;
     }
 
     /**
@@ -84,8 +96,20 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(UpdateGalleryRequest $request, $id) {
+        $images = $request->input('images');
+        $request->request->remove('images');
+
+        $gallery = Gallery::findOrFail($id);
+        $gallery->update($request->validated());
+        $gallery->images()->delete();
+
+        foreach ($images as $url) {
+            $gallery->images()->create(['url' => $url]);
+        }
+
+        $gallery->save();
+        return $gallery;
     }
 
     /**
@@ -95,6 +119,6 @@ class GalleryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        return Gallery::destroy($id);
+        return Gallery::findOrFail($id)->delete();
     }
 }
