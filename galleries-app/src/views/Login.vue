@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5" style="max-width: 360px;">
+    <div class="container" style="max-width: 360px;">
         <div class="text-center mb-4">
             <h1 class="display-2 lobster"> Login </h1>
             <hr>
@@ -10,12 +10,17 @@
             <!-- Email -->
             <div class="form-group mb-3">
                 <label> Email address: </label>
-                <input 
-                    type="text"
-                    class="form-control" 
-                    :class="{ 'is-invalid': $v.credentials.email.$error }"
-                    @blur="setEmail($event.target.value)"
-                />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <i class="input-group-text fa fa-envelope fw-bold text-muted"/>
+                    </div>
+                    <input 
+                        type="text"
+                        class="form-control" 
+                        :class="{ 'is-invalid': $v.credentials.email.$error }"
+                        @blur="setEmail($event.target.value)"
+                    />
+                </div>
 
                 <!-- Errors -->
                 <div v-if="$v.credentials.email.$dirty">
@@ -28,12 +33,17 @@
             <!-- Password -->
             <div class="form-group mb-4">
                 <label> Password: </label>
-                <input 
-                    type="password"
-                    class="form-control" 
-                    :class="{ 'is-invalid': $v.credentials.password.$error }"
-                    @blur="setPassword($event.target.value)"
-                />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <i class="input-group-text fa fa-key fw-bold text-muted"/>
+                    </div>
+                    <input 
+                        type="password"
+                        class="form-control" 
+                        :class="{ 'is-invalid': $v.credentials.password.$error }"
+                        @blur="setPassword($event.target.value)"
+                    />
+                </div>
             </div>
 
             <!-- Submit -->

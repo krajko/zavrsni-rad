@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
 
-    <div v-if="!(galleries.length === 0 && searchMode === false)" class="mx-auto" style="max-width: 480px;">
+    <div class="mx-auto" style="max-width: 480px;">
       <search @search="search($event)"/>
     </div>
 
@@ -13,7 +13,7 @@
       </div>
 
       <div v-else class="text-center mt-3">
-        <b-button v-if="!lastPage" @click="load" variant="primary" class="px-3 pb-2"> <strong> Load more </strong> </b-button>
+        <b-button v-if="!lastPage" @click="load" variant="primary" class="px-3"> <h4 class="lobster mb-0"> View more </h4> </b-button>
       </div>
     </div>
   
@@ -37,41 +37,36 @@ export default {
 
   data() {
     return {
-      page: 1,
-      isLoading: false,
-      searchMode: false
+      isLoading: false
     }
   },
 
   computed: {
-    ...mapGetters('galleries', ['galleries', 'lastPage'])
+    ...mapGetters('galleries', ['galleries', 'lastPage', 'query'])
   },
 
   async beforeRouteEnter(to, from, next) {
+    store.dispatch('galleries/resetPage');
+    store.dispatch('galleries/resetQuery');
+    
     try {
-      await store.dispatch('galleries/getIndex', 1)
+      await store.dispatch('galleries/getIndex')
     } catch(e) {
       console.log(e)
     }
+
     next();
   },
   
   methods: {
-    ...mapActions('galleries', ['getIndex', 'searchIndex']),
+    ...mapActions('galleries', ['getIndex', 'setQuery', 'nextPage' , 'resetPage']),
 
     async load() {
       this.isLoading = true;
-      this.page++;
+      this.nextPage();
 
       try {
-        if (this.searchMode) {
-          await this.searchIndex({
-            query: this.query,
-            page: this.page
-          });
-        } else {
-          await this.getIndex(this.page);
-        }
+        await this.getIndex();
       }catch(e) {
         console.log(e);
       }
@@ -80,14 +75,9 @@ export default {
     },
     
     async search(query) {
-      this.searchMode = true;
-      this.page = 1;
-      this.query = query;
-
-      this.searchIndex({
-        query: query,
-        page: this.page
-      })
+      this.resetPage();
+      this.setQuery(query);
+      this.getIndex();
     }
   }
 }

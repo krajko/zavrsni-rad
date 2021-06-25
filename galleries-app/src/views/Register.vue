@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5" style="max-width: 360px;">
+    <div class="container" style="max-width: 360px;">
         <div class="text-center mb-4">
             <h1 class="display-2 lobster"> Register </h1>
             <hr>

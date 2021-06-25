@@ -6,8 +6,11 @@ const store = {
     namespaced: true,
     state: {
         galleries: [],
+        query: null,
         gallery: {},
-        lastPage: false
+        currentPage: 1,
+        lastPage: false,
+        user: {},
     },
     actions,
     mutations,

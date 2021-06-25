@@ -12,7 +12,7 @@
                 <div class="form-input-group d-flex align-items-end">
                     <textarea class="form-control me-2" rows="1"></textarea>
                     <div>
-                        <button class="btn btn-primary px-3 pb-2"> <strong> Submit </strong> </button>
+                        <b-button variant="primary" class="px-3"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
                     </div>
                 </div>
             </form>

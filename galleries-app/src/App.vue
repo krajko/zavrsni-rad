@@ -14,12 +14,21 @@
 
 <script>
 import Navbar from "./components/Navbar.vue";
+import store from './store'
 
 export default {
   name: "app",
 
   components: {
     Navbar
+  },
+
+  async created() {
+    try {
+      await store.dispatch('auth/getActiveUser');
+    } catch(e) {
+      console.log(e);
+    }
   }
 };
 </script>

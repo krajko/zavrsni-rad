@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import UserGalleries from '../views/UserGalleries.vue'
 import MyGalleries from '../views/MyGalleries.vue'
 import Gallery from '../views/Gallery.vue'
+import GalleryForm from '../views/GalleryForm.vue'
 
 import { globalAuthGuard } from '../guards/auth.js'
 
@@ -41,8 +42,19 @@ const routes = [
   },
   {
     path: '/galleries/:id',
-    meta:{ authRequired: true },
+    meta: { authRequired: true },
     component: Gallery
+  },
+  {
+    path: '/create',
+    meta: { authRequired: true },
+    component: GalleryForm
+  },
+  {
+    path: '/edit/:id',
+    meta: { authRequired: true },
+    component: GalleryForm,
+    props: true
   }
 ]
 

@@ -1,7 +1,9 @@
 <template>
   <div class="container-fluid">
+
+    <user :user="activeUser" class="mb-4"/>
     
-    <div v-if="!(galleries.length === 0 && searchMode === false)" class="mx-auto" style="max-width: 480px;">
+    <div class="mx-auto" style="max-width: 480px;">
       <search @search="search($event)"/>
     </div>
 
@@ -13,7 +15,7 @@
       </div>
 
       <div v-else class="text-center mt-3">
-        <b-button v-if="!lastPage" @click="load" variant="primary" class="px-3 pb-2"> <strong> Load more </strong> </b-button>
+        <b-button v-if="!lastPage" @click="load" variant="primary" class="px-3"> <h4 class="lobster mb-0"> View more </h4> </b-button>
       </div>
     </div>
   
@@ -23,6 +25,8 @@
 <script>
 import GalleryList from '../components/GalleryList.vue'
 import Search from '../components/Search.vue'
+import User from '../components/User.vue'
+
 import { mapActions, mapGetters } from 'vuex'
 import store from '../store'
 
@@ -31,14 +35,13 @@ export default {
 
   components: {
     'gallery-list': GalleryList,
-    'search' : Search
+    'search' : Search,
+    'user': User
   },
 
   data() {
     return {
-      page: 1,
-      isLoading: false,
-      searchMode: false
+      isLoading: false
     }
   },
 
@@ -48,37 +51,30 @@ export default {
   },
 
   async beforeRouteEnter(to, from, next) {
+    store.dispatch('galleries/resetPage');
+    store.dispatch('galleries/resetQuery');
+
     try {
-      await store.dispatch('galleries/getUserIndex', { 
-        id: store.getters['auth/activeUser'].id, 
-        page: 1 
-      });
+      if (!store.getters['auth/activeUser'].id) {
+        await store.dispatch('auth/getActiveUser');
+      }
+      await store.dispatch('galleries/getMyGalleries');
     } catch(e) {
       console.log(e)
     }
+
     next();
   },
   
   methods: {
-    ...mapActions('galleries', ['getUserIndex', 'searchUser']),
+    ...mapActions('galleries', ['getMyGalleries', 'setQuery', 'nextPage', 'resetPage']),
 
     async load() {
       this.isLoading = true;
-      this.page++;
+      this.nextPage();
 
       try {
-        if (this.searchMode) {
-          await this.searchUserIndex({
-            id: this.activeUser.id,
-            query: this.query,
-            page: this.page
-          });
-        } else {
-          await this.getUserIndex({
-            id: this.activeUser.id,
-            page: this.page
-          });
-        }
+        await this.getMyGalleries();
       }catch(e) {
         console.log(e);
       }
@@ -87,15 +83,9 @@ export default {
     },
     
     async search(query) {
-      this.searchMode = true;
-      this.page = 1;
-      this.query = query;
-
-      this.searchUser({
-        id: this.activeUser.id,
-        query: query,
-        page: this.page
-      })
+      this.resetPage();
+      this.setQuery(query);
+      this.getMyGalleries();
     }
   }
 }

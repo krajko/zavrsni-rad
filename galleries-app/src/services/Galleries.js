@@ -11,6 +11,11 @@ class Galleries extends HttpService {
         return data;
     }
 
+    async getUser(id) {
+        const { data } = await this.http.get(`/user/${id}`);
+        return data;
+    }
+
     async userIndex(id, page) {
         const { data } = await this.http.get(`galleries/user/${id}?page=${page}`);
         return data;
@@ -23,6 +28,20 @@ class Galleries extends HttpService {
 
     async getGallery(id) {
         const { data } = await this.http.get(`galleries/${id}`);
+        return data;
+    }
+
+    async create(gallery) {
+        const { data } = await this.http.post('galleries', gallery);
+        return data;
+    }
+    async edit(id, gallery) {
+        const { data } = await this.http.patch(`galleries/${id}`, gallery);
+        return data;
+    }
+
+    async destroy(id) {
+        const { data } = await this.http.delete(`galleries/${id}`);
         return data;
     }
 }
