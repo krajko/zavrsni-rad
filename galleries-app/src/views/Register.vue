@@ -102,6 +102,18 @@
                 </div>
             </div>
 
+            <!-- Terms and Conditions -->
+            <div class="form-check mb-4">
+                <label class="form-check-label"> I accept the <strong class="nav-link m-0 p-0 d-inline">Terms and Conditions</strong>. </label>
+                <input 
+                    type="checkbox" 
+                    class="form-check-input" 
+                    :class="{ 'is-invalid': $v.terms.$error }"
+                    v-model.trim="terms"
+                    @change="$v.terms.$touch()"
+                />
+            </div>
+
             <!-- Submit -->
             <div class="text-center">
                 <b-button variant="primary" type="submit" class="px-3 mb-3"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
@@ -129,8 +141,9 @@ export default {
                 last_name: '',
                 email: '',
                 password: '',
-                password_confirmation: ''
+                password_confirmation: '',
             },
+            terms: false,
             error: false
         }
     },
@@ -176,6 +189,11 @@ export default {
             this.data.password_confirmation = value;
             this.$v.data.password_confirmation.$touch();
         },
+
+        setTerms(value) {
+            this.terms = value;
+            this.$v.terms.$touch();
+        }
     },
 
     validations: {
@@ -207,6 +225,10 @@ export default {
                 required,
                 sameAs: sameAs('password')
             }
+        },
+
+        terms: {
+            sameAs: sameAs(() => true)
         }
     }
 }

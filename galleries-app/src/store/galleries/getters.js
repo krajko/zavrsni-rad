@@ -4,5 +4,6 @@ export const getters = {
     currentPage: state => state.currentPage,
     lastPage: state => state.lastPage,
     gallery: state => state.gallery,
-    user: state => state.user
+    user: state => state.user,
+    isLoading: state => state.isLoading
 }

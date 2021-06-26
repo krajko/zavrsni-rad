@@ -64,6 +64,6 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(globalAuthGuard)
+router.beforeEach(globalAuthGuard);
 
 export default router

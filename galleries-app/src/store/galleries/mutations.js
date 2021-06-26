@@ -61,6 +61,11 @@ export const mutations = {
 
     deleteComment(store, id) {
         store.gallery.comments = store.gallery.comments.filter(comment => comment.id !== id);
+    },
+
+    //Loading
+    setIsLoading(store) {
+        store.isLoading = !store.isLoading;
     }
 
 

@@ -11,6 +11,7 @@ const store = {
         currentPage: 1,
         lastPage: false,
         user: {},
+        isLoading: false
     },
     actions,
     mutations,

@@ -21,6 +21,7 @@ $input-btn-focus-width: 1px;
 
 html, body {
   height: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 label {
@@ -31,6 +32,15 @@ a {
   color: $body-color;
   text-decoration: none;
   transition: ease-in-out 0.2s;
+
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.boldish {
+  font-weight: 600;
 }
 
 .card-img-overlay a i {

@@ -108,5 +108,10 @@ export const actions = {
     async deleteComment(store, id) {
         await GalleryService.deleteComment(id);
         store.commit('deleteComment', id);
+    },
+
+    // Loading
+    setLoading(store) {
+        store.commit('setIsLoading');
     }
 }

@@ -1,40 +1,66 @@
 <template>
     <div class="container" style="max-width: 960px;">
-        <div class="d-flex flex-column mb-3">
 
-            <div class="d-flex flex-row row justify-content-between align-items-center">
+        <!-- Gallery -->
+        <div class="d-flex flex-column mb-3">
+            <div class="d-flex flex-row row justify-content-between align-items-start">
                 <h1 class="col"> 
                     <strong> {{ gallery.title }} </strong> 
                 </h1>
 
-                <div v-if="gallery.user_id === activeUser.id" class="col-2 d-flex justify-content-end">
+                <!-- Buttons -->
+                <div v-if="gallery.user_id === activeUser.id" class="col-2 d-flex justify-content-end mt-2">
                     <router-link :to="`/edit/${gallery.id}`">
-                        <b-button variant="primary" class="px-3 me-1">
+                        <b-button variant="primary px-3 me-1">
                             <i class="fa fa-edit fa-lg"></i>
                         </b-button>
                     </router-link>
-                    <b-button @click="remove(gallery.id)" variant="dark" class="px-3">
+                    
+                    <b-button variant="dark px-3" v-b-modal.confirmDeleteModal>
                         <i class="fa fa-trash fa-lg"></i>
                     </b-button>
                 </div>
             </div>
 
-            <h6 class="text-muted"> 
-                <em> {{ gallery.created_at | formatDate }} </em>
+            <h6 class="text-muted fw-bold my-0"> 
+                <em> {{ gallery.created_at | dateTime }} </em>
             </h6>
 
-            <p class="my-2"> {{ gallery.description }} </p>
+            <p class="my-3"> {{ gallery.description }} </p>
 
-            <router-link :to="`/authors/${gallery.user.id}`"> 
-                <strong> {{ gallery.user.first_name }} {{ gallery.user.last_name }} </strong> 
+            <!-- Author -->
+            <router-link :to="`/authors/${gallery.user.id}`">  
+                <span class="bold"> {{ gallery.user.first_name }} {{ gallery.user.last_name }} </span>
             </router-link>
         </div>
 
+        <!-- Carousel -->
         <carousel :images="gallery.images" class="mb-4"/>
 
+        <!-- Comments  -->
         <div>
             <comments :comments="gallery.comments"/>
         </div>
+
+        <!-- Modal -->
+        <b-modal id="confirmDeleteModal">
+            <template v-slot:modal-header>
+                <h2 class="lobster"> Delete gallery </h2>
+            </template>    
+
+            <template>
+                <p> 
+                    Are you sure you want to delete this gallery? <br>
+                    This action is irreversible. 
+                </p>
+            </template>
+
+            <template v-slot:modal-footer>
+                <b-button variant="dark px-3 fw-bold" @click="$bvModal.hide('confirmDeleteModal')"> Cancel </b-button>
+                <b-button variant="primary px-3 fw-bold" @click="removeGallery(gallery.id)"> Confirm </b-button>
+            </template>
+        </b-modal>
+
     </div>
 </template>
 
@@ -49,7 +75,8 @@ export default {
     name: 'Gallery',
 
     components: {
-        Carousel, Comments
+        Carousel, 
+        Comments
     },
 
     computed: {
@@ -60,7 +87,7 @@ export default {
     methods: {
         ...mapActions('galleries', ['delete']),
 
-         async remove(id) {
+         async removeGallery(id) {
             try {
                 await this.delete(id);
                 this.$router.push('/my-galleries');
@@ -80,7 +107,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

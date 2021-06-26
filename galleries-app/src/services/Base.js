@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store';
 
 export default class HttpService {
     constructor() {
@@ -23,8 +24,13 @@ export default class HttpService {
             const token = JSON.parse(localStorage.getItem('token'));
             
             if (token && error.response.status === 401) {
-                const { data } = await this.http.post('refresh');
-                localStorage.setItem('token', JSON.stringify(data));
+
+                try {
+                    const { data } = await this.http.post('refresh');
+                    localStorage.setItem('token', JSON.stringify(data));
+                } catch(e) {
+                    store.dispatch('auth/logout');
+                }
                 
                 return this.http(originalRequest);
             }

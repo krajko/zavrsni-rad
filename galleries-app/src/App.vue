@@ -5,7 +5,7 @@
     <router-view class="my-4"/>
 
     <footer class="border-top text-center d-flex mt-auto bg-dark" >
-      <div class="mx-auto my-5 text-light">
+      <div class="mx-auto my-5 text-light bold">
         <span> © Nikola Krajinović | 2021 </span>
       </div>
     </footer>

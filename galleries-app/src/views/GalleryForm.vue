@@ -33,6 +33,7 @@
             <!-- Description -->
             <div class="form-group mb-3">
                 <label> Description: </label>
+                <small class="form-text text-muted"> Optional. </small>
                 <textarea
                     type="text"
                     rows="10"
@@ -41,7 +42,6 @@
                     @blur="setDescription($event.target.value)"
                     :value="data.description"
                 />
-                <small class="form-text text-muted"> This field is optional. </small>
 
                 <!-- Errors -->
                 <div v-if="$v.data.description.$dirty">
@@ -54,6 +54,7 @@
             <!-- Inputs -->
             <div class="form-group mb-5">
                 <label> Image URLs: </label>
+                <small class="form-text text-muted"> Ending in .png, .jpg or .jpeg. </small>
                 <div v-for="(image, index) in data.images" :key="index" class="input-group mb-3">
                     <input 
                         type="text"
@@ -97,7 +98,10 @@
             </div>
 
             <!-- Submit -->
-            <div class="text-center">
+            <div v-if="isLoading" class="text-center mb-auto h1">
+                <i class="fas fa-spinner fa-spin text-primary"></i>
+            </div>
+            <div v-else class="text-center">
                 <b-button variant="primary px-3 mb-3" type="submit"> <h4 class="lobster mb-0"> Submit </h4> </b-button>
             </div>
 
@@ -136,7 +140,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters('galleries', ['gallery'])
+        ...mapGetters('galleries', ['gallery', 'isLoading'])
     },
 
     async beforeRouteEnter(to, from, next) {
@@ -162,7 +166,7 @@ export default {
     },
 
     methods: {
-        ...mapActions('galleries', ['create', 'edit']),
+        ...mapActions('galleries', ['create', 'edit', 'setLoading']),
 
         addURL() {
             this.data.images.push('');
@@ -187,6 +191,7 @@ export default {
         },
 
         async submit() {
+            this.setLoading();
             this.$v.$touch();
 
             if (!this.$v.$invalid) {
@@ -206,6 +211,7 @@ export default {
                     this.error = true;
                 }
             }
+            this.setLoading();
         },
 
         cancel() {

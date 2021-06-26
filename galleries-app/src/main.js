@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
+import moment from 'moment'
 
 import './app.scss'
 
@@ -13,9 +14,12 @@ Vue.use(Vuelidate);
 
 Vue.mixin({
   filters: {
-    formatDate(string) {
-      const date = new Date(string);
-      return date.toLocaleDateString();
+    fromNow(date) {
+      return moment(date).fromNow();
+    },
+
+    dateTime(date) {
+      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
     }
   }
 })

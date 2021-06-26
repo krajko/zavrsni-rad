@@ -35,14 +35,8 @@ export default {
     'search' : Search
   },
 
-  data() {
-    return {
-      isLoading: false
-    }
-  },
-
   computed: {
-    ...mapGetters('galleries', ['galleries', 'lastPage', 'query'])
+    ...mapGetters('galleries', ['galleries', 'lastPage', 'query', 'isLoading'])
   },
 
   async beforeRouteEnter(to, from, next) {
@@ -59,10 +53,10 @@ export default {
   },
   
   methods: {
-    ...mapActions('galleries', ['getIndex', 'setQuery', 'nextPage' , 'resetPage']),
+    ...mapActions('galleries', ['getIndex', 'setQuery', 'nextPage' , 'resetPage', 'setLoading']),
 
     async load() {
-      this.isLoading = true;
+      this.setLoading();
       this.nextPage();
 
       try {
@@ -71,7 +65,7 @@ export default {
         console.log(e);
       }
 
-      this.isLoading = false;
+      this.setLoading();
     },
     
     async search(query) {

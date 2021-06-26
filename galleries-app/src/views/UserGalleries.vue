@@ -3,7 +3,7 @@
 
     <user :user="user" class="mb-4"/>
     
-    <div class="mx-auto" style="max-width: 480px;">
+    <div v-if="!(query === null && galleries.length === 0)" class="mx-auto" style="max-width: 480px;">
       <search @search="search($event)"/>
     </div>
 
@@ -41,14 +41,8 @@ export default {
     'user': User
   },
 
-  data() {
-    return {
-      isLoading: false,
-    }
-  },
-
   computed: {
-    ...mapGetters('galleries', ['galleries', 'query', 'lastPage', 'user'])
+    ...mapGetters('galleries', ['galleries', 'query', 'lastPage', 'user', 'isLoading'])
   },
 
   async beforeRouteEnter(to, from, next) {
@@ -69,7 +63,7 @@ export default {
     ...mapActions('galleries', ['getUserGalleries', 'setQuery', 'nextPage', 'resetPage']),
 
     async load() {
-      this.isLoading = true;
+      this.setLoading();
       this.nextPage();
 
       try {
@@ -78,7 +72,7 @@ export default {
         console.log(e);
       }
 
-      this.isLoading = false;
+      this.setLoading();
     },
     
     async search(query) {

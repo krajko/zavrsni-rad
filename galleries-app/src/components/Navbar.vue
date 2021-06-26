@@ -53,7 +53,7 @@
 
             <ul v-if="isAuth" class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <button class="btn btn-dark px-3 pb-2" @click="handleLogout"> 
+                    <button class="btn btn-dark px-3 pb-2 bold" @click="handleLogout"> 
                         <strong> Logout </strong> 
                     </button>
                 </li>
