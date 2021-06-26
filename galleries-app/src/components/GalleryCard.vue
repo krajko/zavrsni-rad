@@ -19,11 +19,13 @@
             </button>
         </div> -->
 
-        <div class="card-body d-flex flex-column justify-content-evenly">
+        <div class="card-body d-flex flex-column justify-content-between">
             <!-- Title -->
-            <router-link :to="`/galleries/${gallery.id}`"> 
-                <h5 class="boldish my-1"> {{ gallery.title }} </h5>
-            </router-link> 
+            <div class="my-auto">
+                <router-link :to="`/galleries/${gallery.id}`"> 
+                    <h5 class="boldish my-1"> {{ gallery.title }} </h5>
+                </router-link> 
+            </div>
 
             <div class="d-flex justify-content-between between align-items-end fw-bold">
                 <!-- Author -->
