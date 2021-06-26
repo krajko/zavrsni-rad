@@ -23,7 +23,7 @@
             <!-- Title -->
             <div class="my-auto">
                 <router-link :to="`/galleries/${gallery.id}`"> 
-                    <h5 class="boldish my-1"> {{ gallery.title }} </h5>
+                    <h5 class="boldish"> {{ gallery.title }} </h5>
                 </router-link> 
             </div>
 
