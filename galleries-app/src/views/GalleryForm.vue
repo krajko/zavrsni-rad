@@ -107,7 +107,7 @@
 
             <!-- Cancel -->
             <div class="text-center">
-                <b-button @click="cancel" variant="dark px-3 pb-2"> <strong> Cancel </strong> </b-button>
+                <b-button @click="cancel" variant="dark px-3 pb-2 bold"> <strong> Cancel </strong> </b-button>
             </div>
 
             <!-- Error -->
